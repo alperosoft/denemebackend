@@ -14,6 +14,42 @@ namespace Osoft.SiparisOnay.Repository.Repository
             _connection = connection;
         }
 
+        public async Task<IEnumerable<Stkfd>> GetSevkiyatDagilim(Filter? filter)
+        {
+            string sql = $@"SELECT 
+                                 cmpt_sfd_mkt = sum(sfd_mkt),              
+                                 colors.cl_v5 
+                            FROM stkfd,   
+                                 colors
+                            WHERE ( colors.cl_primno = stkfd.sfd_tlmt_primno ) and  
+                                 ( ( stkfd.sfd_srk_no = {filter.filterValue1} ) AND  
+                                 ( stkfd.sfd_bcmno = 150 ) AND  
+                                 ( stkfd.sfd_yil = 2024 ) AND  
+                                 ( stkfd.sfd_trh > '{filter.filterValue60?.ToString("yyyy-MM-dd")}') AND
+                                 ( stkfd.sfd_trh < '{filter.filterValue61?.ToString("yyyy-MM-dd")}') AND
+                                 ( stkfd.sfd_dp_no = 20 ) ) GROUP BY colors.cl_v5;";
+
+            return await _connection.QueryAsync<Stkfd, Colors, Stkfd>(sql, (stkfd, colors) =>
+            {
+                stkfd.colors = colors;
+                return stkfd;
+            }, splitOn: "cmpt_sfd_mkt,cl_v5");
+        }
+
+        public async Task<IEnumerable<Stkfd>> GetAylikSevkiyatDagilim(Filter? filter)
+        {
+            string sql = $@"  SELECT sfd_ay,
+                                     sum(sfd_mkt) as cmpt_sfd_mkt
+                              FROM stkfd 
+                              WHERE ( ( stkfd.sfd_srk_no = {filter.filterValue1} ) AND  
+                                     ( stkfd.sfd_bcmno = 150 ) AND  
+                                     ( stkfd.sfd_yil = 2024 ) AND  
+                                     ( stkfd.sfd_trh BETWEEN '{filter.filterValue60?.ToString("yyyy-MM-dd HH:mm:ss")}' AND '{filter.filterValue61?.ToString("yyyy-MM-dd HH:mm:ss")}') AND
+                                     ( stkfd.sfd_dp_no = 20 ) ) GROUP BY sfd_ay;";
+
+            return await _connection.QueryAsync<Stkfd>(sql);
+        }
+
         public async Task<IEnumerable<Stkfd>> GetGelenUrun(Filter? filter)
         {
 
@@ -80,12 +116,11 @@ GROUP BY stkfd.sfd_dp_no,
             //      AND stkfd.sfd_yil = {filter.filterValue2}
 
 
-            return await _connection.QueryAsync<Stkfd,Depo,Fistip,Grup, StkfdCmpt, Stkfd>(sql, (stkfd, depo, fistip, grup, stkfdCmpt) =>
+            return await _connection.QueryAsync<Stkfd,Depo,Fistip,Grup, Stkfd>(sql, (stkfd, depo, fistip, grup) =>
             {
                 stkfd.depo = depo;
                 stkfd.fistip = fistip;
                 stkfd.grup = grup;
-                stkfd.stkfdCmpt = stkfdCmpt;
                 return stkfd;
             },splitOn: "sfd_fist_no,dp_ad,fist_tanim,grp_kod,cmpt_kg");
         }

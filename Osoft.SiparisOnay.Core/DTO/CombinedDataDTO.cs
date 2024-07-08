@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Osoft.SiparisOnay.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,8 @@ namespace Osoft.SiparisOnay.Core.DTO
         public IEnumerable<StkfdGelenUrunDTO> StkfdGelenUrunDTO { get; set; }
         public IEnumerable<GelenRenkDTO> GelenRenkDTO { get; set; }
         public IEnumerable<OnayRenkDTO> OnayRenkDTO { get; set; }
+        public IEnumerable<Spd> SiparisDagilimData { get; set; }
+        public IEnumerable<Stkfd> SevkiyatDagilimData { get; set; }
+        public IEnumerable<Stkfd> AylikSevkiyatDagilimData { get; set; }
     }
 }

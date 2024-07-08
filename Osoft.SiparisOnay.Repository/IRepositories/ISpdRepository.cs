@@ -12,6 +12,7 @@ namespace Osoft.SiparisOnay.Repository.IRepositories
         Task<int> InsertSpd(JsonElement data);
         Task<int> UpdateSpd(string sp_primno, string spNo2Value, JsonElement data);
         Task<IEnumerable<int>> GetSpdPrimno(int spd_no1);
+        Task<IEnumerable<Spd>> GetSiparisDagilim(Filter? filter);
 
     }
 }

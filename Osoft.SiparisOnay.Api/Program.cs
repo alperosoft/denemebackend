@@ -135,8 +135,6 @@ public static class ServiceRegistration
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IFirmaRepository, FirmaRepository>();
-        services.AddScoped<IFirmagrpRepository, FirmagrpRepository>();
-        services.AddScoped<IBankaRepository, BankaRepository>();
         services.AddScoped<ISpRepository, SpRepository>();
         services.AddScoped<IPersonelRepository, PersonelRepository>();
         services.AddScoped<IGnstrRepository, GnstrRepository>();

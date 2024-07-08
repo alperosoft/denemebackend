@@ -63,7 +63,7 @@ namespace Osoft.SiparisOnay.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMamlz(int an_srk_no, int an_tur, int an_mlz_tur, int an_left, string? as_left_kod, string? as_kod_i, string? as_kod_s, int an_yok)
+        public async Task<IActionResult> GetMamlz(int an_srk_no, int an_tur, int an_mlz_tur, int an_left, string as_left_kod, string as_kod_i, string as_kod_s, int an_yok)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Osoft.SiparisOnay.Api.Controllers
                 {
                     statusCode = 200,
                     rowCount = modelData.Count(),
-                    data = modelData
+                    data = modelData.Select(hero => _mapper.Map<MamlzDTO>(hero))
                 });
             }
             catch (Exception ex)

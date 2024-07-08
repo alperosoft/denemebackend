@@ -79,15 +79,10 @@ namespace Osoft.SiparisOnay.Repository.Repository
             return await _connection.QueryAsync<Mamlz>(sql);
         }
 
-
         public async Task<IEnumerable<Mamlz>> GetAll(int srk_no)
         {
-            string sql = @$"SELECT DISTINCT mamlz.*, firma.frm_ksad FROM mamlz, firma WHERE mamlz.srk_no = '{srk_no}' AND firma.frm_kod = mamlz.mm_ted_frm_kod";
-            return await _connection.QueryAsync<Mamlz, Firma, Mamlz>(sql, (mamlz, firma) =>
-            {
-                mamlz.firma = firma;
-                return mamlz;
-            }, splitOn: "compute_grp1, frm_ksad");
+            string sql = @$"SELECT * FROM mamlz WHERE srk_no='{srk_no}'";
+            return await _connection.QueryAsync<Mamlz>(sql);
         }
 
         public async Task<IEnumerable<Mamlz>> GetMamlzYardim(Filter? filter)
@@ -129,5 +124,7 @@ namespace Osoft.SiparisOnay.Repository.Repository
             filterValue5: mm_yok = 0
              */
         }
+
+
     }
 }

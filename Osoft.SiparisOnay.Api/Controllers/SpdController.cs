@@ -21,13 +21,13 @@ namespace Osoft.SiparisOnay.Api.Controllers
         }
 
         [HttpPost("insertspd")]
-        public async Task<IActionResult> InsertSpd([FromBody] JsonElement data)
+        public async Task<IActionResult> InsertSpd(Spd spd)
         {
             try
             {
-                var model = JsonSerializer.Deserialize<Spd>(data);
+                //var model = JsonSerializer.Deserialize<Spd>(data);
 
-                var insertResult = await _repository.AddAsync(model);
+                var insertResult = await _repository.AddAsync(spd);
 
                 //buraya tekrar bakılacak...
                 if (insertResult >= 0)
@@ -39,38 +39,39 @@ namespace Osoft.SiparisOnay.Api.Controllers
             {
                 return StatusCode(500, new { statusCode = 500, message = "Internal Server Error", error = ex.Message });
             }
-
-            //try
-            //{
-            //    var rowsAffected = await _repository.InsertSpd(data);
-            //    return Ok(new { statusCode = 200, rowAffected = rowsAffected, data });
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest(new { statusCode = 400, error = ex.Message });
-
-            //}
         }
 
 
         [HttpPut("updatespd")]
-        public async Task<IActionResult> UpdateSpd([FromBody] JsonElement data)
+        public async Task<IActionResult> UpdateSpd(Spd spd)
         {
+            //try
+            //{
+            //   // string spPrimnoValue = data.GetProperty("spd_primno").GetString();
+
+            //   // var jsonData = data;
+
+            //    //var rowsAffected = await _repository.UpdateSpd("spd_primno", spPrimnoValue, jsonData);
+            //    return Ok();
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest(new { statusCode = 400, error = ex.Message });
+            //}
+
             try
             {
-                // JSON verisinden güncellenecek sütun adı ve değerini alın
-                string spPrimnoValue = data.GetProperty("spd_primno").GetString();
+                var result = _repository.UpdateAsync(spd).Result;
+                if (result > 0)
+                    return Ok(new { statusCode = 200, message = "Günceleme başarılı" });
 
-                // Diğer güncellenecek verileri içeren JSON verisini oluşturun
-                var jsonData = data;
-
-                var rowsAffected = await _repository.UpdateSpd("spd_primno", spPrimnoValue, jsonData);
-                return Ok();
+                return NotFound(new { statusCode = 404, message = "Hiçbir satır etkilenmedi!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { statusCode = 400, error = ex.Message });
+                return StatusCode(500, new { statusCode = 500, message = "Internal Server Error", error = ex.Message });
             }
+
         }
 
         [HttpPost("filter")]    
@@ -123,6 +124,20 @@ namespace Osoft.SiparisOnay.Api.Controllers
             try
             {
                 var modelData = await _repository.GetSpdPrimno(spd_no1);
+                return Ok(modelData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { statusCode = 400, error = ex.Message });
+            }
+        }
+
+        [HttpPost("siparisdagilim")]
+        public async Task<IActionResult> GetSiparisDagilim(Filter? filter)
+        {
+            try
+            {
+                var modelData = await _repository.GetSiparisDagilim(filter);
                 return Ok(modelData);
             }
             catch (Exception ex)

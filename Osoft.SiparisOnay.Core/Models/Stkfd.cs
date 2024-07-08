@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Osoft.SiparisOnay.Core.Models
 {
-    public class Stkfd
+    public class Stkfd: StkfdCmpt
     {
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         [Required(ErrorMessage = "sfd_primno  boş olamaz!")]
@@ -487,14 +487,15 @@ namespace Osoft.SiparisOnay.Core.Models
         public Depo? depo {  get; set; }
         public Fistip? fistip {  get; set; }
         public Grup? grup {  get; set; }
-        public StkfdCmpt? stkfdCmpt {  get; set; }
-
+        public Colors? colors { get; set; }
 
     }
 
     public class StkfdCmpt
     {
+        public string cmpt_sfd_mkt { get; set; }
         public decimal cmpt_kg { get; set; }
         public decimal cmpt_mt { get; set; }
+
     }
 }

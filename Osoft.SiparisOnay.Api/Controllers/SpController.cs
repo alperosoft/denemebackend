@@ -64,7 +64,7 @@ namespace Osoft.SiparisOnay.Api.Controllers
         }
 
         [HttpPost("insertsp")]
-        public async Task<IActionResult> Insert([FromBody] JsonElement data)
+        public async Task<IActionResult> InsertSp([FromBody] JsonElement data)
         {
             try
             {

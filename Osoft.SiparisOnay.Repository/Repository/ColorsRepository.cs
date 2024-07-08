@@ -14,6 +14,8 @@ namespace Osoft.SiparisOnay.Repository.Repository
             _connection = connection;
         }
 
+
+
         public async Task<IEnumerable<Colors>> GetGelenRenk(Filter? filter)
         {
             string sql = $@"SELECT top(10) colors.cl_frm_kod,   

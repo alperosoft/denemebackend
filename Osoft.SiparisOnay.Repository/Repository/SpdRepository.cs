@@ -114,12 +114,66 @@ namespace Osoft.SiparisOnay.Repository.Repository
             return await _connection.QueryAsync<decimal>(sql);
         }
 
+        public async Task<IEnumerable<Spd>> GetSiparisDagilim(Filter? filter)
+        {
+            string sql = $@"  SELECT 
+                                     spd.spd_birim,
+                                     cmpt_spd_mkt = sum(spd_mkt),
+                                     colors.cl_v5
+                              FROM spd,   
+                                   colors
+                              WHERE (colors.cl_primno = spd.spd_tlmt_primno) and  
+                                     ((spd.spd_srk_no = {filter.filterValue1} ) AND  
+                                     (spd.spd_bcmno = 150 ) AND  
+                                     (spd.spd_siptrh > '{filter.filterValue60?.ToString("yyyy-MM-dd")}') AND
+                                     (spd.spd_siptrh < '{filter.filterValue61?.ToString("yyyy-MM-dd")}' ) AND
+                                     (spd.spd_no1 = 2024 ) ) group by colors.cl_v5, spd.spd_birim;";
+
+            return await _connection.QueryAsync<Spd, Colors,Spd>(sql, (spd, colors) =>
+            {
+                spd.colors = colors;
+                return spd;
+            },splitOn: "cmpt_spd_mkt,cl_v5");
+        }
+
+        
+
         public async Task<IEnumerable<Spd>> GetSpd(Filter? filter)
         {
-            string sql = $@"SELECT *,
-                        cmpt_kalip_var = isnull((SELECT SUM(1) FROM colors WHERE cl_srk_no = spd.spd_srk_no AND cl_bcmno = 405 AND cl_mm_primno = spd.spd_mm_primno AND cl_islet_onay_trh IS NOT NULL AND cl_color_drm <> 10), 0)
-                      FROM spd
-                  WHERE spd.spd_sp_primno = {filter.filterValue1};
+            //string[] validParams = { "mm_kod", "mm_ad", "mm_cins", "mm_kod-mm_ad", "mm_birim", "mm_birim2", "mm_ad_ydil", "mm_tlmt_kod", "mm_brmgrp", "mm_orjkod",
+            //                        "mm_grp", "mm_stokyeri", "mm_standart", "mm_des_kod", "mm_mlz_tur", "mm_alis_dvz_kod", "mm_ted_frm_kod", "mm_tas_no", "mm_grp1_kod", "mm_birim-mm_mkt_kg" };
+            //string sql = "SELECT ";
+
+            //if (validParams.Contains(filter.filterValue20))
+            //{
+            //    if (filter.filterValue20 == "mm_kod-mm_ad")
+            //    {
+            //        //(SELECT mm_ad FROM mamlz WHERE mm_primno = 44431) AS cmpt_mm_row,
+            //        sql += $@" (SELECT mm_kod + ' ' + mm_ad FROM mamlz WHERE (mm_primno = {filter.filterValue2})) as cmpt_mm_row,";
+            //    }
+            //    else if (filter.filterValue20 == "mm_birim-mm_mkt_kg")
+            //    {
+            //        sql += $@" (SELECT mm_birim, mm_mkt_kg FROM mamlz WHERE mm_primno = {filter.filterValue2}) as cmpt_mm_row,";
+            //    }
+            //    else   
+            //    {
+            //        sql += $@" (SELECT {filter.filterValue20} FROM mamlz WHERE ( mm_primno = {filter.filterValue2})) as cmpt_mm_row,";
+            //    }
+            //}
+
+            //sql += $@"*,
+            //            cmpt_kalip_var = isnull((SELECT SUM(1) FROM colors WHERE cl_srk_no = spd.spd_srk_no AND cl_bcmno = 405 AND cl_mm_primno = spd.spd_mm_primno AND cl_islet_onay_trh IS NOT NULL AND cl_color_drm <> 10), 0)
+            //          FROM spd
+            //      WHERE spd.spd_sp_primno = {filter.filterValue1};
+            //      ";
+
+            //return await _connection.QueryAsync<Spd>(sql);  
+
+
+            string sql = $@"select  mamlz.*,spd.*  from sp 
+                            LEFT JOIN spd spd ON spd.spd_sp_primno=sp.sp_primno
+                            LEFT JOIN mamlz mamlz ON mamlz.mm_primno=spd.spd_mm_primno
+                            where sp_primno=130550 {filter.filterValue1};
                   ";
 
             return await _connection.QueryAsync<Spd>(sql);
@@ -178,7 +232,7 @@ namespace Osoft.SiparisOnay.Repository.Repository
 
 
             string sql = $@"
-                    SELECT
+                    SELECT   
                         spd.*,
                         spd.spd_smkt_kg,
                         mamlz.mm_ad,

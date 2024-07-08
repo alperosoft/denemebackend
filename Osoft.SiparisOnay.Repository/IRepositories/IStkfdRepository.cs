@@ -10,6 +10,8 @@ namespace Osoft.SiparisOnay.Repository.IRepositories
     public interface IStkfdRepository : IGenericRepository<Stkfd>
     {
         Task<IEnumerable<Stkfd>> GetGelenUrun(Filter? filter);
+        Task<IEnumerable<Stkfd>> GetSevkiyatDagilim(Filter? filter);
+        Task<IEnumerable<Stkfd>> GetAylikSevkiyatDagilim(Filter? filter);
         //Task<IEnumerable<Stkfd>> GetSatisUrun(Filter? filter);
     }
 }

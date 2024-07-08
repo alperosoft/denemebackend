@@ -234,7 +234,7 @@ namespace Osoft.SiparisOnay.Repository.Helpers
         {
             string where = "";
             Types types = new Types();
-            string sql = @$"UPDATE {typeof(T).Name} SET ", columName = "";
+            string sql = @$"UPDATE  {typeof(T).Name} SET ", columName = "";
 
             //where şartı varsa buradan alır. Where object olduğu için entity içinden aşağıdaki kod ile alıyoruz.
             foreach (var p in entity.GetType().GetProperties().OrderBy(o => o.Name))

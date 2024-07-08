@@ -341,7 +341,6 @@ namespace Osoft.SiparisOnay.Core.Models
         [Range(0, 255, ErrorMessage = "Sayı 255 den fazla olamaz.")]
         public int frm_sips_asim { get; set; } = 0;
         public Firmagrp? firmagrp { get; set; }
-        public Object? Where { get; set; }
 
     }
 }

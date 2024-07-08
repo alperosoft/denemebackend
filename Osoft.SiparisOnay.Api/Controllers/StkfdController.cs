@@ -8,7 +8,6 @@ namespace Osoft.SiparisOnay.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class StkfdController : ControllerBase
     {
         private readonly IStkfdRepository _repository;
@@ -19,6 +18,34 @@ namespace Osoft.SiparisOnay.Api.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+
+        [HttpPost("sevkiyatdagilim")]
+        public async Task<IActionResult> GetSevkiyatDagilim(Filter? filter)
+        {
+            try
+            {
+                var modelData = await _repository.GetSevkiyatDagilim(filter);
+                return Ok(modelData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { statusCode = 400, error = ex.Message });
+            }
+        }
+
+            [HttpPost("ayliksevkiyatdagilim")]
+            public async Task<IActionResult> GetAylikSevkiyatDagilim(Filter? filter)
+            {
+                try
+                {
+                    var modelData = await _repository.GetAylikSevkiyatDagilim(filter);
+                    return Ok(modelData);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { statusCode = 400, error = ex.Message });
+                }
+            }
 
         [HttpPost("gelenurun")]
         public async Task<IActionResult> GetGelenUrun(Filter filter)
@@ -31,8 +58,8 @@ namespace Osoft.SiparisOnay.Api.Controllers
                                           .Select(group => new
                                           {
                                               dp_ad = group.Key,
-                                              total_fason_kg = group.Sum(item => item.sfd_fist_no == 11 ? item.stkfdCmpt.cmpt_kg : 0),
-                                              total_satin_alim_kg = group.Sum(item => item.sfd_fist_no == 10 ? item.stkfdCmpt.cmpt_kg : 0),
+                                              total_fason_kg = group.Sum(item => item.sfd_fist_no == 11 ? item.cmpt_kg : 0),
+                                              total_satin_alim_kg = group.Sum(item => item.sfd_fist_no == 10 ? item.cmpt_kg : 0),
                                           });
 
 

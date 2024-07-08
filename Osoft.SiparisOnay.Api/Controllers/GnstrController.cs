@@ -8,7 +8,7 @@ namespace Osoft.SiparisOnay.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GnstrController : CustomController
+    public class GnstrController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IGnstrRepository _repo;
@@ -18,33 +18,36 @@ namespace Osoft.SiparisOnay.Api.Controllers
             _repo = gnstrRepository;
         }
 
-        // GET: api/<GnstrController>/
         [HttpGet("{srk_no}/{gs_bcmno}")]
-        public async Task<IActionResult> Gnstr(int srk_no, int gs_bcmno)
+        public async Task<IActionResult> Gnstr(int srk_no,int gs_bcmno)
         {
             try
             {
-                return GetReturnStatus(await _repo.Gnstr(srk_no, gs_bcmno), null);
+                var modelData = _mapper.Map<IEnumerable<GnstrDTO>>(await _repo.Gnstr(srk_no, gs_bcmno));
+                return Ok(new { statusCode = 200, rowCount = modelData.Count(), data = modelData });
             }
             catch (Exception ex)
             {
-                return GetReturnStatus(null, ex.Message);
-
+                return BadRequest(new { statusCode = 400, error = ex.Message });
             }
         }
 
-        // POST: api/<GnstrController2>/
-        [HttpPost("{srk_no}")]
-        public async Task<IActionResult> GetGnstr(int srk_no, List<string> gs_primno)
+        [HttpGet("gnstr/{srk_no}/{gs_primno}")]
+        public async Task<IActionResult> GetGnstr(int srk_no, int gs_primno)
         {
             try
             {
-                return GetReturnStatus(await _repo.GetGnstr(srk_no, gs_primno), null);
+                var testModelData = await _repo.GetByIdAsync(new Gnstr(), gs_primno);
+                var modelData = await _repo.GetGnstr(srk_no, gs_primno);
+                var mappedData = modelData.Select(hero => _mapper.Map<GnstrDTO>(hero)).FirstOrDefault();
+                var responseData = mappedData?.gs_kod;
+
+                return Ok(new { data = responseData });
+
             }
             catch (Exception ex)
             {
-                return GetReturnStatus(null, ex.Message);
-
+                return BadRequest(new { statusCode = 400, error = ex.Message });
             }
         }
     }

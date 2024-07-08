@@ -48,9 +48,8 @@ namespace Osoft.SiparisOnay.Api.Mapping
                  .ForMember(dest => dest.dp_ad, opt => opt.MapFrom(src => src.depo != null ? src.depo.dp_ad : null))
                 .ForMember(dest => dest.fist_tanim, opt => opt.MapFrom(src => src.fistip != null ? src.fistip.fist_tanim : null))
                 .ForMember(dest => dest.grp_kod, opt => opt.MapFrom(src => src.grup != null ? src.grup.grp_kod : null))
-                .ForMember(dest => dest.grp_ad, opt => opt.MapFrom(src => src.grup != null ? src.grup.grp_ad : null))
-                .ForMember(dest => dest.cmpt_kg, opt => opt.MapFrom(src => src.stkfdCmpt != null ? src.stkfdCmpt.cmpt_kg : (decimal?)null))
-                .ForMember(dest => dest.cmpt_mt, opt => opt.MapFrom(src => src.stkfdCmpt != null ? src.stkfdCmpt.cmpt_mt : (decimal?)null)).ReverseMap();
+                .ForMember(dest => dest.grp_ad, opt => opt.MapFrom(src => src.grup != null ? src.grup.grp_ad : null));
+         
 
             CreateMap<Spurt, SpurtOrguUretimDTO>()
                 .ForMember(dest => dest.grp_ad, opt => opt.MapFrom(src => src.grup != null ? src.grup.grp_ad : null))

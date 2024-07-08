@@ -25,13 +25,14 @@ namespace Osoft.SiparisOnay.Repository.Repository
         private readonly ISevkiyatRepository _sevkiyatRepository;
         private readonly IStkfdRepository _stkfdRepository;
         private readonly IColorsRepository _colorsRepository;
+        private readonly ISpdRepository _spdRepository;
         private readonly IConfiguration _configuration;
 
 
 
 
 
-        public HubRepository(IConfiguration configuration, IHubContext<MyHub> hubContext, IMapper mapper, IReceteRepository receteRepository, ISpwoRepository spwoRepository, ISevkiyatRepository sevkiyatRepository, IStkfdRepository stkfdRepository, IColorsRepository colorsRepository)
+        public HubRepository(IConfiguration configuration, IHubContext<MyHub> hubContext, IMapper mapper, IReceteRepository receteRepository, ISpdRepository spdRepository, ISpwoRepository spwoRepository, ISevkiyatRepository sevkiyatRepository, IStkfdRepository stkfdRepository, IColorsRepository colorsRepository)
         {
             _hubContext = hubContext;
             _mapper = mapper;
@@ -40,6 +41,7 @@ namespace Osoft.SiparisOnay.Repository.Repository
             _sevkiyatRepository = sevkiyatRepository;
             _stkfdRepository = stkfdRepository;
             _colorsRepository = colorsRepository;
+            _spdRepository = spdRepository;
             _configuration = configuration;
         }
 
@@ -75,6 +77,24 @@ namespace Osoft.SiparisOnay.Repository.Repository
                 #region ReceteSQL
 
                 IEnumerable<Recete> receteData = await _receteRepository.GetRecete(filter);
+
+                #endregion
+
+                #region SiparisDagilimSQL
+
+                IEnumerable<Spd> siparisDagilimData = await _spdRepository.GetSiparisDagilim(filter);
+
+                #endregion
+
+                #region sevkiyatDagilimSQL
+
+                IEnumerable<Stkfd> sevkiyatDagilimData = await _stkfdRepository.GetSevkiyatDagilim(filter);
+
+                #endregion
+
+                #region aylikSevkiyatDagilim
+
+                IEnumerable<Stkfd> aylikSevkiyatDagilimData = await _stkfdRepository.GetAylikSevkiyatDagilim(filter);
 
                 #endregion
 
@@ -140,11 +160,14 @@ namespace Osoft.SiparisOnay.Repository.Repository
                                           .Select(group => new StkfdGelenUrunDTO
                                           {
                                               dp_ad = group.Key,
-                                              total_fason_kg = group.Sum(item => item.sfd_fist_no == 11 ? item.stkfdCmpt.cmpt_kg : 0),
-                                              total_satin_alim_kg = group.Sum(item => item.sfd_fist_no == 10 ? item.stkfdCmpt.cmpt_kg : 0),
+                                              total_fason_kg = group.Sum(item => item.sfd_fist_no == 11 ? item.cmpt_kg : 0),
+                                              total_satin_alim_kg = group.Sum(item => item.sfd_fist_no == 10 ? item.cmpt_kg : 0),
                                           }),
                     GelenRenkDTO = gelenRenkData.Select(hero => _mapper.Map<GelenRenkDTO>(hero)),
                     OnayRenkDTO = onayRenkData.Select(hero => _mapper.Map<OnayRenkDTO>(hero)),
+                    SiparisDagilimData =  siparisDagilimData,
+                    SevkiyatDagilimData=  sevkiyatDagilimData,
+                    AylikSevkiyatDagilimData = aylikSevkiyatDagilimData
                 };
 
                 await _hubContext.Clients.All.SendAsync(jobName, combinedData);

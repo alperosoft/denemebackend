@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Osoft.SiparisOnay.Core.Models
 {
-    public class Mamlz: MamlzCmpt
+    public class Mamlz
     {
         [Key]
         public int mm_primno { get; set; }
@@ -385,9 +385,8 @@ namespace Osoft.SiparisOnay.Core.Models
         public decimal mm_alis_mkt { get; set; } = 0;
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int mm_mas_id { get; set; } = 0;
-        public MamlzYardimCmpt? mamlzYardimCmpt {  get; set; }
 
-        public Firma? firma { get; set; }
+        public MamlzYardimCmpt? mamlzYardimCmpt {  get; set; }
 
     }
 

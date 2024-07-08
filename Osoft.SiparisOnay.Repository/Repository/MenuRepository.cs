@@ -45,17 +45,15 @@ namespace Osoft.SiparisOnay.Repository.Repository
             //                    ORDER BY mnew_sira,  mnew_sira2";
 
             string sql = $@"    SELECT DISTINCT mnew_sira,mnew_sira2,
-                                       mnew_url,
                                        mnew_resim1,
                                        meny2_mnew_id,
-                                       meny2_kod1,
+                                       meny2_kod1,  
                                        meny2_kod2,
                                        meny2_kod3
                                 FROM menu_new_yetki,   
                                      menu_new, menu_new_yetki2  
                                 WHERE (  menu_new.mnew_id = menu_new_yetki.meny_mnew_id ) AND  
-                                      (  menu_new_yetki2.meny2_mnew_id = menu_new_yetki.meny_mnew_id ) AND
-                                      (  menu_new_yetki.meny_us_kod = 'PLAN2' ) AND menu_new.mnew_srk_no='{filter.filterValue1}'
+                                      (  menu_new_yetki2.meny2_mnew_id = menu_new_yetki.meny_mnew_id ) AND menu_new.mnew_srk_no='{filter.filterValue1}'
                                 ORDER BY mnew_sira,  mnew_sira2";
 
             return await _connection.QueryAsync<MenuNew, menu_new_yetki2, menu_new_yetki2>(sql, (menuNew, menu_new_yetki2) =>

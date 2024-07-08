@@ -2,7 +2,7 @@
 
 namespace Osoft.SiparisOnay.Core.Models
 {
-    public class Spd
+    public class Spd: Cmpt_Spd
     {
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         [Required(ErrorMessage = "spd_primno  boş olamaz!")]
@@ -102,8 +102,9 @@ namespace Osoft.SiparisOnay.Core.Models
         public decimal spd_hmetretul { get; set; } = 0;
         [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
         public int spd_men { get; set; } = 0;
-        [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
-        public int spd_mgrmj { get; set; } = 0;
+        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
+        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public decimal spd_mgrmj { get; set; } = 0;
         [RegularExpression(@"^\d+.?\d{0,4}$", ErrorMessage = "Sayı virgülden sonra 4 haneli olmalıdır.")]
         [Range(0, 999999.9999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public decimal spd_mmetretul { get; set; } = 0;
@@ -162,7 +163,7 @@ namespace Osoft.SiparisOnay.Core.Models
         [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
         [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public decimal spd_wmkt_mt_dp { get; set; } = 0;
-        [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
+        [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int spd_wmkt_top_dp { get; set; } = 0;
         [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
         [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
@@ -188,10 +189,12 @@ namespace Osoft.SiparisOnay.Core.Models
         public int spd_maxen { get; set; } = 0;
         [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
         public int spd_minen { get; set; } = 0;
-        [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
-        public int spd_maxgrmj { get; set; } = 0;
-        [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
-        public int spd_mingrmj { get; set; } = 0;
+        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
+        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public decimal spd_maxgrmj { get; set; } = 0;
+        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
+        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public decimal spd_mingrmj { get; set; } = 0;
         [StringLength(1, ErrorMessage = "Karakter sayısı 1 aşmamalıdır.")]
         public string spd_cektest { get; set; } = "";
         [RegularExpression(@"^\d+.?\d{0,2}$", ErrorMessage = "Sayı virgülden sonra 2 haneli olmalıdır.")]
@@ -264,11 +267,11 @@ namespace Osoft.SiparisOnay.Core.Models
         public int spd_dept_no { get; set; } = 0;
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int spd_oncelik { get; set; } = 0;
-        [StringLength(20, ErrorMessage = "Karakter sayısı 20 aşmamalıdır.")]
+        [StringLength(30, ErrorMessage = "Karakter sayısı 30 aşmamalıdır.")]
         public string spd_onay { get; set; } = "";
         public DateTime? spd_onaytrh { get; set; } = null;
         public DateTime? spd_redtrh { get; set; } = null;
-        [StringLength(20, ErrorMessage = "Karakter sayısı 20 aşmamalıdır.")]
+        [StringLength(30, ErrorMessage = "Karakter sayısı 30 aşmamalıdır.")]
         public string spd_sonuc { get; set; } = "";
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int spd_cfyg_primno { get; set; } = 0;
@@ -325,18 +328,18 @@ namespace Osoft.SiparisOnay.Core.Models
         public int spd_asp_id { get; set; } = 0;
         [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
         public int spd_asp_bcmno { get; set; } = 0;
-        [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
-        public int spd_asp_no1 { get; set; } = 0;
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int spd_asp_no2 { get; set; } = 0;
+        [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
+        public int spd_asp_no1 { get; set; } = 0;
         [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
         public int spd_aspd_sira { get; set; } = 0;
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int spd_fyt_id { get; set; } = 0;
-        [StringLength(200, ErrorMessage = "Karakter sayısı 200 aşmamalıdır.")]
-        public string spd_etk_aciklama { get; set; } = "";
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int spd_dept_no2 { get; set; } = 0;
+        [StringLength(200, ErrorMessage = "Karakter sayısı 200 aşmamalıdır.")]
+        public string spd_etk_aciklama { get; set; } = "";
         [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
         public int spd_des_id2 { get; set; } = 0;
         [StringLength(20, ErrorMessage = "Karakter sayısı 20 aşmamalıdır.")]
@@ -397,25 +400,6 @@ namespace Osoft.SiparisOnay.Core.Models
         public int spd_urtt_id { get; set; } = 0;
         [StringLength(20, ErrorMessage = "Karakter sayısı 20 aşmamalıdır.")]
         public string spd_urtt_kod { get; set; } = "";
-        [StringLength(150, ErrorMessage = "Karakter sayısı 150 aşmamalıdır.")]
-        public string spd_bitis_aciklama { get; set; } = "";
-        public DateTime? spd_bastrh { get; set; } = null;
-        public DateTime? spd_bittrh { get; set; } = null;
-        [StringLength(20, ErrorMessage = "Karakter sayısı 20 aşmamalıdır.")]
-        public string spd_mark_kod { get; set; } = "";
-        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
-        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
-        public decimal spd_dp_cik_mkt { get; set; } = 0;
-        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
-        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
-        public decimal spd_dp_cik_mkt_mt { get; set; } = 0;
-        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
-        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
-        public decimal spd_dp_cik_brtmkt { get; set; } = 0;
-        [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
-        public int spd_dp_cik_mkt_top { get; set; } = 0;
-        [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
-        public int spd_dp_cik_mkt_amb { get; set; } = 0;
         [RegularExpression(@"^\d+.?\d{0,4}$", ErrorMessage = "Sayı virgülden sonra 4 haneli olmalıdır.")]
         [Range(0, 99999999999999.9999, ErrorMessage = "Sayı 18 karakterden fazla olamaz.")]
         public decimal spd_pesinat { get; set; } = 0;
@@ -443,6 +427,25 @@ namespace Osoft.SiparisOnay.Core.Models
         [RegularExpression(@"^\d+.?\d{0,4}$", ErrorMessage = "Sayı virgülden sonra 4 haneli olmalıdır.")]
         [Range(0, 99999999999999.9999, ErrorMessage = "Sayı 18 karakterden fazla olamaz.")]
         public decimal spd_masraf_tutar { get; set; } = 0;
+        [StringLength(150, ErrorMessage = "Karakter sayısı 150 aşmamalıdır.")]
+        public string spd_bitis_aciklama { get; set; } = "";
+        public DateTime? spd_bastrh { get; set; } = null;
+        public DateTime? spd_bittrh { get; set; } = null;
+        [StringLength(20, ErrorMessage = "Karakter sayısı 20 aşmamalıdır.")]
+        public string spd_mark_kod { get; set; } = "";
+        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
+        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public decimal spd_dp_cik_mkt { get; set; } = 0;
+        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
+        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public decimal spd_dp_cik_mkt_mt { get; set; } = 0;
+        [RegularExpression(@"^\d+.?\d{0,3}$", ErrorMessage = "Sayı virgülden sonra 3 haneli olmalıdır.")]
+        [Range(0, 9999999.999, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public decimal spd_dp_cik_brtmkt { get; set; } = 0;
+        [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public int spd_dp_cik_mkt_top { get; set; } = 0;
+        [Range(-2147483648, 2147483647, ErrorMessage = "Sayı 10 karakterden fazla olamaz.")]
+        public int spd_dp_cik_mkt_amb { get; set; } = 0;
         [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
         public int spd_svk_dp_no { get; set; } = 0;
         [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
@@ -472,12 +475,17 @@ namespace Osoft.SiparisOnay.Core.Models
         public string spd_aciklama1 { get; set; } = "";
         [StringLength(300, ErrorMessage = "Karakter sayısı 300 aşmamalıdır.")]
         public string spd_aciklama2 { get; set; } = "";
-        [Range(-32768, 32768, ErrorMessage = "Sayı 32768 değeri fazla olamaz.")]
-        public int spd_cl_rpt { get; set; } = 0;
+
 
         public Mamlz? mamlz { get; set; } = null;
         public Sp? sp { get; set; } = null;
         public Firma? firma { get; set; } = null;
+        public Colors? colors { get; set; }
+    }
 
+    public class Cmpt_Spd
+    {
+        public string cmpt_spd_mkt { get; set; }
+        public string cmpt_mm_ad { get; set; } = "";
     }
 }

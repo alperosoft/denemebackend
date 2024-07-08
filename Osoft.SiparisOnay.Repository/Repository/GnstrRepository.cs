@@ -19,16 +19,22 @@ namespace Osoft.SiparisOnay.Repository.Repository
 
         public async Task<IEnumerable<Gnstr>> Gnstr(int srk_no, int gs_bcmno)
         {
-            string sql = @$"SELECT * from gnstr where srk_no={srk_no} and gs_bcmno={gs_bcmno}";
-            return await _conn.QueryAsync<Gnstr>(sql);
+            string sql = @"
+                SELECT gs_ad, gs_sira, gs_kod, gs_primno
+                FROM gnstr
+                WHERE srk_no = :srk_no AND gs_bcmno = :gs_bcmno";
+
+            return await _conn.QueryAsync<Gnstr>(sql, new { srk_no, gs_bcmno });
         }
-        public async Task<IEnumerable<Gnstr>> GetGnstr(int srk_no, List<string> gs_primno)
+
+        public async Task<IEnumerable<Gnstr>> GetGnstr(int srk_no, int gs_primno)
         {
-            string gs_primnoStr = string.Join(",", gs_primno.Select(x => $"'{x}'"));
+            //SELECT * FROM gnstr WHERE gs_primno = 2695 AND srk_no = 1
+            string sql = @$" SELECT gs_ad, gs_sira, gs_kod, gs_primno
+                FROM gnstr
+                WHERE srk_no = {srk_no} AND gs_primno = {gs_primno}";
 
-            string sql = @$"SELECT * FROM gnstr WHERE srk_no = {srk_no} AND gs_primno IN ({gs_primnoStr})";
             return await _conn.QueryAsync<Gnstr>(sql);
         }
-
     }
 }
