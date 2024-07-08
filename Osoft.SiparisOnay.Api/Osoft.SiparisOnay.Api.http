@@ -1,0 +1,6 @@
+@Osoft.SiparisOnay.Api_HostAddress = http://localhost:5090
+
+GET {{Osoft.SiparisOnay.Api_HostAddress}}/swagger
+Accept: application/json
+
+###
